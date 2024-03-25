@@ -3,8 +3,6 @@ import streamlit as st
 import pickle
 import numpy as np
 from PIL import Image
-import pandas as pd
-import pylance
 
 # load the pickle file
 with open('churn_model.pkl', 'rb') as file:
@@ -25,19 +23,14 @@ def churn_prediction(input):
 
 # set up streamlit page
 def main():
-    #st.set_page_config(page_title='Customer churn prediction', layout='wide')
+    st.set_page_config(page_title='Customer churn prediction', layout='wide')
     
     # add image
     image = Image.open('customer_service_1.jpg')
     st.image(image, use_column_width=False)
-    add_selectbox =st.sidebar.selectbox('How would you liek to predict?',('Online','Batch'))
-    st.sidebar.info('This app will predict customer churn and identify customer churn risk')
-    st.sider.image(image)
     
     # add title
     st.title('Customer Churn Risk Prediction using Machine Learning')
-
-        
     st.write('Please enter relevnt customer data')
 
     # take input from user
