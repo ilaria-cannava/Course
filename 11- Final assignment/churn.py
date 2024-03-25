@@ -4,10 +4,19 @@ import pickle
 import numpy as np
 from PIL import Image
 
-# load the pickle file
-with open('churn_model.pkl', 'rb') as file:
-    model = pickle.load(file)
-    
+# Load the model
+def load_model():
+    try:
+        with open('churn_model.pkl', 'rb') as file:
+            model = pickle.load(file)
+        return model
+    except Exception as e:
+        st.error(f"Error loading the model: {e}")
+        return None
+
+model = load_model()
+
+
 # create function for prediction
 def churn_prediction(input):
     input_array =np.asarray(input)
@@ -34,7 +43,7 @@ def main():
     st.write('Please enter relevant customer data')
 
     # take input from user
-    MonthlyMinutes = st.number_input('Monthly minutes usage:', min_value=0, step=1)
+    MonthlyMinutes = st.number_input('Monthly minutes usage:', min_value=-100000, step=1)
     TotalRecurringCharge = st.number_input('Total recurring charges:', min_value=0, step=1)
     PercChangeMinutes = st.number_input('Minutes usage change over the given period', min_value=0, step=1)
     UniqueSubs = st.number_input('Number of Unique Subscritions:', min_value=0, step=1)
