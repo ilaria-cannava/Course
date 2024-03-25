@@ -46,7 +46,7 @@ def main():
     PercChangeMinutes = st.number_input('Minutes usage change over the given period', min_value=None, max_value=None, step=0.001)
     UniqueSubs = st.number_input('Number of Unique Subscritions:', min_value=0, step=1)
     Handsets = st.number_input('How many handsets the customer has:', min_value=0, step=1)
-    CurrentEquipmentDays = st.number_input('How many days is the current equipment old:' min_value=0, step=1)
+    CurrentEquipmentDays = st.number_input('How many days is the current equipment old:', min_value=0, step=1)
     HandsetRefurbished = st.number_input('Owns a refurbished handset| yes or no | yes = 1 and no = 0:',min_value=0, max_value=1, step=1)
     HandsetWebCapable = st.number_input('Owns a web capable handset| yes or no | yes = 1 and no = 0:',min_value=0, max_value=1, step=1)
     RetentionCalls = st.number_input('How many retention calls were made:', min_value=0, step=1)
