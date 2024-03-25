@@ -54,16 +54,22 @@ def main():
     RetentionCalls = st.number_input('How many retention calls were made:', min_value=0, step=1)
     RetentionOffersAccepted = st.number_input('Accepted retention offer| yes or no | yes = 1 and no = 0:',min_value=0, max_value=1, step=1)
     CreditRating = st.number_input('Credit Rating, Range from 1 to 7 (Highest, High, Good, Medium, Good, Low, VeryLow ,Lowest)', min_value=1, max_value=7, step=1)
+    
+    # Create input array for prediction
+    input_features = [MonthlyMinutes, TotalRecurringCharge, PercChangeMinutes,
+                          UniqueSubs, Handsets, CurrentEquipmentDays,
+                          HandsetRefurbished, HandsetWebCapable, RetentionCalls,
+                          RetentionOffersAccepted, CreditRating]
+        
+        # Convert input features to numpy array
+    input_array = np.array(input_features).reshape(1, -1)
         
     # code for prediction
     predict =''
     
     ## button for prediction
     if st.button('Predict'):
-        predict = churn_prediction([MonthlyMinutes,TotalRecurringCharge,PercChangeMinutes,
-                                    UniqueSubs,Handsets,CurrentEquipmentDays,
-                                    HandsetRefurbished, HandsetWebCapable, RetentionCalls,
-                                    RetentionOffersAccepted, CreditRating])
+        predict = churn_prediction(input_array)
     
     st.success(predict)
     
