@@ -2,7 +2,8 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas as pd
-import base64
+from PIL import Image
+import base64  # Import base64 module for encoding data for download
 
 # Load the model
 def load_model():
