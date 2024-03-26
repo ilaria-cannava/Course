@@ -43,13 +43,12 @@ def main():
     st.set_page_config(page_title='Customer churn prediction', layout='wide')
     
     # Add image
-    image = Image.open('customer_service_1.jpg')
+    image = Image.open('customer_service_2.png')
     st.image(image, use_column_width=False)
     
     # Add title
     st.title('Customer Churn Risk Prediction')
-    st.write('Please enter relevant customer data or upload a CSV file.')
-    
+ 
     # Option to input data manually
     st.write('### Manually Input Data for a single customer or upload a csv file below')
     MonthlyMinutes = st.number_input('Monthly minutes usage:', min_value=0, step=1)
