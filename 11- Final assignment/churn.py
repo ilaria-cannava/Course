@@ -61,9 +61,6 @@ def main():
                           HandsetRefurbished, HandsetWebCapable, RetentionCalls,
                           RetentionOffersAccepted, CreditRating]
         
-        # Convert input features to numpy array
-    input_array = np.array(input_features).reshape(1, -1)
-        
     # code for prediction
     predict =''
     
