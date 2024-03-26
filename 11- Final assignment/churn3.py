@@ -2,8 +2,7 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas as pd
-from PIL import Image
-import base64  # Import base64 module for encoding data for download
+import base64
 
 # Load the model
 def load_model():
@@ -22,6 +21,22 @@ def churn_prediction(input_df):
     prediction = model.predict(input_df)
     return prediction
 
+# Function for calculating churn risk levels
+def calculate_churn_risk(input_df):
+    y_probabilities = model.predict_proba(input_df)
+    churn_probabilities = y_probabilities[:, 1]
+
+    # Define thresholds for risk levels
+    threshold_high = 0.6
+    threshold_medium = 0.4
+
+    # Categorize customers based on predicted probabilities
+    churn_risk_levels = np.where(churn_probabilities >= threshold_high, 'High Risk',
+                                 np.where(churn_probabilities >= threshold_medium, 'Medium Risk', 'Low Risk'))
+
+    # Return the churn risk levels
+    return churn_risk_levels
+
 # Streamlit UI
 def main():
     st.set_page_config(page_title='Customer churn prediction', layout='wide')
@@ -31,8 +46,8 @@ def main():
     st.image(image, use_column_width=False)
     
     # Add title
-    st.title('Customer Churn Prediction')
-    
+    st.title('Customer Churn Risk Prediction using Machine Learning')
+    st.write('Please enter relevant customer data or upload a CSV file.')
     
     # Option to input data manually
     st.write('### Manually Input Data for a single customer or upload a csv file below')
@@ -51,30 +66,16 @@ def main():
     # Option to upload CSV file
     st.write('### Upload CSV File')
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
-
-
-    # If file is uploaded, make predictions
+    
+    # If file is uploaded, make predictions and calculate churn risk levels
     if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file)
-            
-            # Drop the 'Unnamed: 0' column if it exists
-            if 'Unnamed: 0' in df.columns:
-                df.drop('Unnamed: 0', axis=1, inplace=True)
-            
-            # Convert any remaining object columns to numeric, if possible
-            for col in df.columns:
-                if df[col].dtype == 'object':
-                    try:
-                        df[col] = pd.to_numeric(df[col])
-                    except ValueError:
-                        pass  # Skip columns that cannot be converted
-                    
-            # Ensure all columns have numeric data types
-            df = df.astype(float)
-            
             prediction = churn_prediction(df)
+            churn_risk_levels = calculate_churn_risk(df)
+            
             df['Prediction'] = prediction
+            df['Churn Risk Level'] = churn_risk_levels
             st.write(df)
             
             # Add a download button to download the prediction results
@@ -84,8 +85,8 @@ def main():
             st.markdown(href, unsafe_allow_html=True)
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
-            
-            # If "Predict" button is clicked, make predictions
+
+    # If "Predict" button is clicked, make predictions
     if st.button('Predict'):
         input_df = pd.DataFrame({
             'MonthlyMinutes': [MonthlyMinutes],
@@ -99,10 +100,10 @@ def main():
             'How many retention calls were made':[RetentionCalls],
             'Accepted retention offer? (yes=1, no=0)':[RetentionOffersAccepted],
             'Credit Rating (1 to 7)':[CreditRating]
-            
         })
-        prediction = churn_prediction(input_df)
-        st.write(prediction)
+        churn_risk_level = calculate_churn_risk(input_df)
+        st.write("Prediction:", prediction)
+        st.write("Churn Risk Level:", churn_risk_level)
 
 # Run the app
 if __name__ == '__main__':
