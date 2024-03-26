@@ -32,7 +32,7 @@ def main():
     st.set_page_config(page_title='Customer churn prediction', layout='wide')
     
     # add image
-    image = Image.open('customer_service_2.jpg')
+    image = Image.open('customer_service_1.jpg')
     st.image(image, use_column_width=False)
     
     # add title
