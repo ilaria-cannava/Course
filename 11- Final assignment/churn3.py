@@ -72,6 +72,22 @@ def main():
     if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file)
+            
+            # Drop the 'Unnamed: 0' column if it exists
+            if 'Unnamed: 0' in df.columns:
+                df.drop('Unnamed: 0', axis=1, inplace=True)
+            
+            # Convert any remaining object columns to numeric, if possible
+            for col in df.columns:
+                if df[col].dtype == 'object':
+                    try:
+                        df[col] = pd.to_numeric(df[col])
+                    except ValueError:
+                        pass  # Skip columns that cannot be converted
+                    
+            # Ensure all columns have numeric data types
+            df = df.astype(float)
+            
             prediction = churn_prediction(df)
             churn_risk_levels = calculate_churn_risk(df)
             
