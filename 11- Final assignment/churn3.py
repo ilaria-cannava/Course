@@ -47,7 +47,7 @@ def main():
     st.image(image, use_column_width=False)
     
     # Add title
-    st.title('Customer Churn Risk Prediction using Machine Learning')
+    st.title('Customer Churn Risk Prediction')
     st.write('Please enter relevant customer data or upload a CSV file.')
     
     # Option to input data manually
