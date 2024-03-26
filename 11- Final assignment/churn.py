@@ -56,7 +56,7 @@ def main():
     CreditRating = st.number_input('Credit Rating, Range from 1 to 7 (Highest, High, Good, Medium, Good, Low, VeryLow ,Lowest)', min_value=1, max_value=7, step=1)
     
     # Create input array for prediction
-    input_features = [MonthlyMinutes, TotalRecurringCharge, PercChangeMinutes,
+    input_array = [MonthlyMinutes, TotalRecurringCharge, PercChangeMinutes,
                           UniqueSubs, Handsets, CurrentEquipmentDays,
                           HandsetRefurbished, HandsetWebCapable, RetentionCalls,
                           RetentionOffersAccepted, CreditRating]
